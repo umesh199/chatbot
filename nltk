@@ -1,0 +1,43 @@
+import nltk
+import random
+import string
+from nltk.corpus import wordnet
+from nltk.tokenize import word_tokenize
+
+# Sample responses for a basic rule-based chatbot
+responses = {
+    "greeting": ["Hello! How can I help you?", "Hi there! What can I do for you?", "Hey! How's it going?"],
+    "goodbye": ["Goodbye! Have a great day!", "See you later!", "Take care!"],
+    "default": ["I'm not sure I understand. Can you rephrase that?", "Could you elaborate?", "I'm here to help, but I need more details."],
+    "thanks": ["You're welcome!", "Happy to help!", "Anytime!"]
+}
+
+# Keywords for triggering responses
+keywords = {
+    "greeting": ["hello", "hi", "hey", "greetings"],
+    "goodbye": ["bye", "goodbye", "see you"],
+    "thanks": ["thanks", "thank you", "appreciate"],
+}
+
+# Function to match user input to appropriate responses
+def match_response(user_input):
+    user_tokens = word_tokenize(user_input.lower())
+    for intent, words in keywords.items():
+        if any(token in words for token in user_tokens):
+            return random.choice(responses[intent])
+    return random.choice(responses["default"])
+
+# Main function to run the chatbot
+def chatbot_response():
+    print("Chatbot: Hello! I'm here to assist you. Type 'exit' to end the conversation.")
+    while True:
+        user_input = input("You: ")
+        if user_input.lower() in ["exit", "quit"]:
+            print("Chatbot:", random.choice(responses["goodbye"]))
+            break
+        response = match_response(user_input)
+        print("Chatbot:", response)
+
+# Start the chatbot
+if __name__ == "__main__":
+    chatbot_response()
